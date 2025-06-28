@@ -24,7 +24,7 @@ test.describe("Navigation Menu", () => {
     {
       text: "About",
       dataTestId: "about-sidebar-link",
-      startLocation: "https://www.saucedemo.com/",
+      startLocation: "https://www.saucedemo.com/inventory.html",
       endLocation: "https://saucelabs.com",
     },
     {
