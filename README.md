@@ -6,6 +6,8 @@ It was not intended to provide 100% test coverage, but was an exercise in starti
 
 I hit a few Gotchas that I remember hitting in the past like using `.forEach` inside async tests, or `map()` with other logic (Note: `map()` works fine if you are only calling `test()` within it).
 
+I should get used to using `for (const x of y) {}` for parametrized tests.
+
 I looked into fixtures which I've not really done before - they are not like Pytest fixtures. They are more opaque and don't play nice with parametrized tests and `.use()` (Passing parametrized data to a fixture in a loop will override that data for all tests, and if they are running in parallel, its not going to end well).
 
 ## Setup
