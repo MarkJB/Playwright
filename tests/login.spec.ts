@@ -105,6 +105,11 @@ const testData = [
     expected:
       "Epic sadface: Username and password do not match any user in this service",
   },
+  {
+    username: "locked_out_user",
+    password: "secret_sauce",
+    expected: "Epic sadface: Sorry, this user has been locked out",
+  },
 ];
 
 test.describe("Parametrized Login Tests", () => {
