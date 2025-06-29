@@ -18,9 +18,13 @@ Should just be able to run `npm ci` to install everything.
 
 ## Running tests
 
-From Github, go to actions and view an existing run or trigger a new run if you have permissions on the repo.
+### Github
 
-From the command line, `npx playwright test`
+Go to actions and view an existing run or trigger a new run if you have permissions on the repo.
+
+### Command line
+
+`npx playwright test`
 
 This should test on Chrome, Firefox & Webkit (you might need to install the playwright browsers though `npx playwright install`)
 
