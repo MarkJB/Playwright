@@ -27,3 +27,9 @@ This should test on Chrome, Firefox & Webkit (you might need to install the play
 ## License
 
 This project is licensed under the MIT License — see the LICENSE file for details.
+
+## Next steps?
+
+What would I add next?
+
+The login page lists a number of different users that result in different UI behaviour such as a locked out user or glitch or other errors. We should try and test those. Some might be as simple as updating the test data for the existing login test ()
