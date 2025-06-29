@@ -48,8 +48,12 @@ test.describe("Navigation Menu", () => {
       // Verify that we are on the inventory page
       await expect(page.locator('[data-test="title"]')).toHaveText("Products");
 
-      // Go to the start location of the menu item
-      await page.goto(item.startLocation);
+      console.log("Before page.goto", await page.url());
+      // Go to the start location of the menu item only if it is not already the current page.
+      if (page.url() !== item.startLocation) {
+        await page.goto(item.startLocation);
+      }
+      console.log("After page.goto", await page.url());
 
       // Click on the menu item to open the sidebar
       await page.getByRole("button", { name: "Open Menu" }).click();
