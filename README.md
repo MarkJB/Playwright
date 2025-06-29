@@ -35,3 +35,7 @@ What would I add next?
 The login page lists a number of different users that result in different UI behaviour such as a locked out user or glitch or other errors. We should try and test those. Some might be as simple as updating the test data for the existing login test, but others would require dedicated tests.
 
 Note: Added locked_out_user test in e4d073896ba7d4a845a26fb0760bf56286ff9084
+
+We could also do more extensive tests on the cart, adding multiple products, checking totals, removing products and checking totals and qtys update as expected.
+
+It might be interesting to test visual snapshots. I haven't had much luck with that in previous teams due to differences in screenshots taken on test systems vs CI runners and lack of appetite for visual snapshots. Note: The `visual_user` appears to move some of the UI elements around so that could be used to simulate a visual snapshot failure.
