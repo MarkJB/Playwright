@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
 import { login } from "../utils/utils";
 
+test.use({ trace: "on" });
+
 test.describe("Navigation Menu", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the login page before each test
@@ -52,6 +54,8 @@ test.describe("Navigation Menu", () => {
       // Go to the start location of the menu item only if it is not already the current page.
       if (page.url() !== item.startLocation) {
         await page.goto(item.startLocation);
+      } else {
+        console.log("Don't navigate");
       }
       console.log("After page.goto", await page.url());
 
