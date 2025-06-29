@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { login } from "../utils/utils";
-import { start } from "repl";
 
 test.describe("Navigation Menu", () => {
   test.beforeEach(async ({ page }) => {
@@ -51,7 +50,10 @@ test.describe("Navigation Menu", () => {
   // menuItems.map(async (item) => {  // This didn't work on its own, Would have to wait for all promises.
   // for (const item of menuItems) {  // This did work, but took some figuring out.
 
-  menuItems.forEach(async (item) => {
+  // tl;dr: avoid async in the forEach loop, just pass the 'item' to the test function (the test function is async)
+  // Async in the forEach loop might only be potentially problematic, but best to avoid.
+
+  menuItems.forEach((item) => {
     test(`Verify navigation menu item: ${item.text}`, async ({ page }) => {
       // Verify that we are on the inventory page
       await expect(page.locator('[data-test="title"]')).toHaveText("Products");
