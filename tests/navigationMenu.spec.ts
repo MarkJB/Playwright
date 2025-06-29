@@ -51,7 +51,7 @@ test.describe("Navigation Menu", () => {
   // menuItems.map(async (item) => {  // This didn't work on its own, Would have to wait for all promises.
   // for (const item of menuItems) {  // This did work, but took some figuring out.
 
-  for (const item of menuItems) {
+  menuItems.forEach(async (item) => {
     test(`Verify navigation menu item: ${item.text}`, async ({ page }) => {
       // Verify that we are on the inventory page
       await expect(page.locator('[data-test="title"]')).toHaveText("Products");
@@ -82,5 +82,5 @@ test.describe("Navigation Menu", () => {
       // Verify that we are on the end location of the menu item
       await expect(page).toHaveURL(item.endLocation);
     });
-  }
+  });
 });
