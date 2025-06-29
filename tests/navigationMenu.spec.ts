@@ -40,18 +40,8 @@ test.describe("Navigation Menu", () => {
     },
   ];
 
-  // I went down a rabbit hole here because I started writing a test and then decided
-  // that it would be better as a parameterized test. So within the test block, I wrote
-  // the test data, then created a forEach loop to iterate over the menu items.
-  // However, that didn't work because the forEach loop does not wait for the async function.
-  // took some debugging to figure this out... I think I've tripped up on this before...
-  // forEach is not awaited, so we need to use a for loop or map with Promise.all
-  // menuItems.forEach(async (item) => {   // This did not work inside the test.
-  // menuItems.map(async (item) => {  // This didn't work on its own, Would have to wait for all promises.
-  // for (const item of menuItems) {  // This did work, but took some figuring out.
-
-  // tl;dr: avoid async in the forEach loop, just pass the 'item' to the test function (the test function is async)
-  // Async in the forEach loop might only be potentially problematic, but best to avoid.
+  // tl;dr: avoid async in the forEach loop, just pass the 'item' directly to the test function in a syncronous way.
+  // the function passed to `test()` can be async. e.g. `[].forEach((item) => { test(`test name: ${item.text}`, async ({ page }) => { }); });`
 
   menuItems.forEach((item) => {
     test(`Verify navigation menu item: ${item.text}`, async ({ page }) => {
