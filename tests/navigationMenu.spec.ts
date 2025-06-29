@@ -1,8 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { login } from "../utils/utils";
 
-test.use({ trace: "on" });
-
 test.describe("Navigation Menu", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the login page before each test
@@ -50,14 +48,12 @@ test.describe("Navigation Menu", () => {
       // Verify that we are on the inventory page
       await expect(page.locator('[data-test="title"]')).toHaveText("Products");
 
-      console.log("Before page.goto", await page.url());
       // Go to the start location of the menu item only if it is not already the current page.
+      // For some reason. navigating to the same page results in a failure on CI, but only
+      // for the about test, so adding logic to only navigate if we are at the desired start location.
       if (page.url() !== item.startLocation) {
         await page.goto(item.startLocation);
-      } else {
-        console.log("Don't navigate");
       }
-      console.log("After page.goto", await page.url());
 
       // Click on the menu item to open the sidebar
       await page.getByRole("button", { name: "Open Menu" }).click();
