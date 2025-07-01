@@ -1,4 +1,5 @@
 import { expect, Page, test as base } from "@playwright/test";
+import { PageObjectModel } from "./pageObjectModel";
 
 // These could be made into fixtures... Lets duplicate them and provide both utils and fixtures
 
@@ -8,12 +9,13 @@ export const login = async (
   username: string = "standard_user",
   password: string = "secret_sauce"
 ) => {
+  const pom = new PageObjectModel(page);
   // Fill in the username and password fields with locked out user credentials
-  await page.getByRole("textbox", { name: "Username" }).fill(username);
-  await page.getByRole("textbox", { name: "Password" }).fill(password);
+  await pom.login.usernameInput().fill(username);
+  await pom.login.passwordInput().fill(password);
 
   // Click the login button
-  await page.getByRole("button", { name: "Login" }).click();
+  await pom.login.loginButton().click();
 };
 
 // login fixture
@@ -39,11 +41,18 @@ export const selectProduct = async (
   page: Page,
   product: string | undefined = "Sauce Labs Backpack"
 ) => {
+  const pom = new PageObjectModel(page);
   // Helper function to select a product from the products inventory page
   // (don't forget to call this function with await or your test will not wait for it to complete)
-  await expect(page.locator('[data-test="title"]')).toHaveText("Products");
+  await expect(pom.inventory.title()).toHaveText("Products");
   await page.getByText(product).click();
-  await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText(
-    "Sauce Labs Backpack"
-  );
+  await expect(pom.inventoryItem.name()).toHaveText("Sauce Labs Backpack");
 };
+
+// Make the Page Object Model available to all tests that use this fixture
+// (saves having to instantiate it in each test)
+export const test = base.extend<{ pom: PageObjectModel }>({
+  pom: async ({ page }, use) => {
+    await use(new PageObjectModel(page));
+  },
+});

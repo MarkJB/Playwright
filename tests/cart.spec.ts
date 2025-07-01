@@ -1,27 +1,25 @@
-import { test, expect } from "@playwright/test";
-import { login, selectProduct } from "../utils/utils";
+import { expect } from "@playwright/test";
+import { login, selectProduct, test } from "../utils/utils";
 import { faker } from "@faker-js/faker";
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, pom }) => {
   // Navigate to the login page before each test
   await page.goto("https://www.saucedemo.com/");
   // Login with default credentials
   await login(page);
   // Verify that we are on the inventory page
-  await expect(page.locator('[data-test="title"]')).toHaveText("Products");
+  await expect(pom.inventory.title()).toHaveText("Products");
   // Add default product to the cart
   await selectProduct(page);
 
   // Go to the cart
-  await page.locator('[data-test="shopping-cart-link"]').click();
+  await pom.inventory.shoppingCartIconButton().click();
 
   // Proceed to checkout
-  await page.getByRole("button", { name: "Checkout" }).click();
+  await pom.cart.checkoutButton().click();
 
   // Verify that the checkout form is displayed
-  await expect(page.locator('[data-test="title"]')).toHaveText(
-    "Checkout: Your Information"
-  );
+  await expect(pom.cart.title()).toHaveText("Checkout: Your Information");
 });
 
 // After creating a few permutations of the checkout process, it feels like this
@@ -59,24 +57,23 @@ const customerInfo = [
 ];
 
 customerInfo.forEach(({ title, firstName, lastName, postalCode, message }) => {
-  test(`Checkout with ${title}`, async ({ page }) => {
+  test(`Checkout with ${title}`, async ({ pom }) => {
     // Fill in the checkout form with the provided customer data
     if (firstName) {
-      await page.getByRole("textbox", { name: "First Name" }).fill(firstName);
+      await pom.cart.firstNameInput().fill(firstName);
     }
     if (lastName) {
-      await page.getByRole("textbox", { name: "Last Name" }).fill(lastName);
+      await pom.cart.lastNameInput().fill(lastName);
     }
     if (postalCode) {
-      await page
-        .getByRole("textbox", { name: "ZIP/Postal Code" })
-        .fill(postalCode);
+      await pom.cart.postalCodeInput().fill(postalCode);
     }
 
     // Submit the form
-    await page.getByRole("button", { name: "Continue" }).click();
+    await pom.cart.continueButton().click();
 
     // Verify that an error message is displayed
-    await expect(page.getByText(message)).toBeVisible();
+    await expect(pom.cart.errorMessage(message)).toBeVisible();
+    // await expect(page.getByText(message)).toBeVisible();
   });
 });
