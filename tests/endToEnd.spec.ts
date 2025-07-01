@@ -14,14 +14,14 @@ test("Login, add product to cart and checkout", async ({ page }) => {
   await login(page);
 
   // Verify that we are on the inventory page
-  await expect(pom.inventory.title()).toHaveText("Products"); // TODO: Shared locator
+  await expect(pom.inventory.title()).toHaveText("Products");
 
   // Add a product to the cart (There are two options here, add directly from inventory or from the details page)
   await pom.inventory.productByName("Sauce Labs Backpack").click();
   await pom.inventoryItem.addToCartButton().click();
 
   // Go to the cart
-  await pom.inventory.shoppingCartLink().click(); // TODO: Shared locator
+  await pom.inventory.shoppingCartIconButton().click();
   // note: if these elements were using the custom attribute data-testid,
   // we could use page.getByTestId("shopping-cart-link").click(); instead.
 
@@ -41,7 +41,7 @@ test("Login, add product to cart and checkout", async ({ page }) => {
   await pom.cart.continueButton().click();
 
   // Verify checkout overview (We might want to verify the product details here as well, depends on what is important)
-  await expect(pom.inventory.title()).toHaveText("Checkout: Overview");
+  await expect(pom.cart.title()).toHaveText("Checkout: Overview");
 
   // Complete purchase
   await pom.cart.finishButton().click();

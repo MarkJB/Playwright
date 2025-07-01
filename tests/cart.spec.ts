@@ -15,13 +15,13 @@ test.beforeEach(async ({ page }) => {
   await selectProduct(page);
 
   // Go to the cart
-  await pom.inventory.shoppingCartLink().click();
+  await pom.inventory.shoppingCartIconButton().click();
 
   // Proceed to checkout
   await pom.cart.checkoutButton().click();
 
   // Verify that the checkout form is displayed
-  await expect(pom.inventory.title()).toHaveText("Checkout: Your Information"); // TODO: Shared locator
+  await expect(pom.cart.title()).toHaveText("Checkout: Your Information");
 });
 
 // After creating a few permutations of the checkout process, it feels like this

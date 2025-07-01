@@ -28,7 +28,7 @@ test.describe("Products", () => {
       testAllTheThingsShirtRed.getByRole("button", { name: "Remove" })
     ).toBeVisible();
     // And the cart icon should show 1 item
-    await expect(pom.inventory.shoppingCartLink()).toHaveText("1");
+    await expect(pom.inventory.shoppingCartIconButton()).toHaveText("1");
   });
 
   test("Remove Product from cart", async ({ page }) => {
@@ -45,7 +45,7 @@ test.describe("Products", () => {
       pom.inventory.addToCartButton("sauce-labs-backpack")
     ).toBeVisible();
     // And the cart icon should show 0 items
-    await expect(pom.inventory.shoppingCartLink()).toBeEmpty();
+    await expect(pom.inventory.shoppingCartIconButton()).toBeEmpty();
   });
 
   test("Check default product sort order", async ({ page }) => {
@@ -187,7 +187,7 @@ test.describe("Product Details", () => {
     await pom.inventoryItem.addToCartButton().click();
     // Then the product should be added to the cart
     // (cart icon should show 1 item)
-    await expect(pom.inventory.shoppingCartLink()).toHaveText("1");
+    await expect(pom.inventoryItem.shoppingCartIconButton()).toHaveText("1");
     // And the "Add to cart" button should change to "Remove"
     await expect(pom.inventoryItem.removeFromCartButton()).toBeVisible();
   });
@@ -205,7 +205,7 @@ test.describe("Product Details", () => {
     await pom.inventoryItem.removeFromCartButton().click();
     // Then the product should be added to the cart
     // (cart icon should show 1 item)
-    await expect(pom.inventory.shoppingCartLink()).toBeEmpty(); // TODO: Shared locator. Shopping cart shows on all pages so could have a shared section that can also be resued in each section for ease of use
+    await expect(pom.inventoryItem.shoppingCartIconButton()).toBeEmpty();
     // And the "Add to cart" button should change to "Add to cart"
     await expect(pom.inventoryItem.addToCartButton()).toBeVisible();
   });

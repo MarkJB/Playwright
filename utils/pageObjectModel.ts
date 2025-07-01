@@ -1,9 +1,19 @@
 import { Page, Locator } from "@playwright/test";
 
 export class PageObjectModel {
-  constructor(private page: Page) {}
+  private page: Page;
+  constructor(page: Page) {
+    this.page = page;
+  }
+
+  common = {
+    title: () => this.page.locator('[data-test="title"]'),
+    shoppingCartIconButton: () =>
+      this.page.locator('[data-test="shopping-cart-link"]'),
+  };
 
   login = {
+    title: this.common.title,
     usernameInput: () => this.page.getByRole("textbox", { name: "Username" }),
     passwordInput: () => this.page.getByRole("textbox", { name: "Password" }),
     loginButton: () => this.page.getByRole("button", { name: "Login" }),
@@ -11,7 +21,8 @@ export class PageObjectModel {
   };
 
   inventory = {
-    title: () => this.page.locator('[data-test="title"]'),
+    title: this.common.title,
+    shoppingCartIconButton: this.common.shoppingCartIconButton,
     productSortDropdown: () =>
       this.page.locator('[data-test="product-sort-container"]'),
     productNameList: () => this.page.locator(".inventory_item_name"),
@@ -20,12 +31,12 @@ export class PageObjectModel {
       this.page.locator(`[data-test="add-to-cart-${productId}"]`),
     removeFromCartButton: (productId: string) =>
       this.page.locator(`[data-test="remove-${productId}"]`),
-    shoppingCartLink: () =>
-      this.page.locator('[data-test="shopping-cart-link"]'),
     productByName: (name: string) => this.page.getByText(name),
   };
 
   inventoryItem = {
+    title: this.common.title,
+    shoppingCartIconButton: this.common.shoppingCartIconButton,
     // Product details
     addToCartButton: () =>
       this.page.getByRole("button", { name: "Add to cart" }),
@@ -39,6 +50,7 @@ export class PageObjectModel {
   };
 
   cart = {
+    title: this.common.title,
     shoppingCartLink: () =>
       this.page.locator('[data-test="shopping-cart-link"]'),
     checkoutButton: () => this.page.getByRole("button", { name: "Checkout" }),
