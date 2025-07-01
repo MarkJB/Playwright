@@ -13,7 +13,7 @@ export class PageObjectModel {
   };
 
   login = {
-    title: this.common.title,
+    title: () => this.common.title(),
     usernameInput: () => this.page.getByRole("textbox", { name: "Username" }),
     passwordInput: () => this.page.getByRole("textbox", { name: "Password" }),
     loginButton: () => this.page.getByRole("button", { name: "Login" }),
@@ -21,8 +21,8 @@ export class PageObjectModel {
   };
 
   inventory = {
-    title: this.common.title,
-    shoppingCartIconButton: this.common.shoppingCartIconButton,
+    title: () => this.common.title(),
+    shoppingCartIconButton: () => this.common.shoppingCartIconButton(),
     productSortDropdown: () =>
       this.page.locator('[data-test="product-sort-container"]'),
     productNameList: () => this.page.locator(".inventory_item_name"),
@@ -35,8 +35,8 @@ export class PageObjectModel {
   };
 
   inventoryItem = {
-    title: this.common.title,
-    shoppingCartIconButton: this.common.shoppingCartIconButton,
+    title: () => this.common.title(),
+    shoppingCartIconButton: () => this.common.shoppingCartIconButton(),
     // Product details
     addToCartButton: () =>
       this.page.getByRole("button", { name: "Add to cart" }),
@@ -50,7 +50,7 @@ export class PageObjectModel {
   };
 
   cart = {
-    title: this.common.title,
+    title: () => this.common.title(),
     shoppingCartLink: () =>
       this.page.locator('[data-test="shopping-cart-link"]'),
     checkoutButton: () => this.page.getByRole("button", { name: "Checkout" }),
