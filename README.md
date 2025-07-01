@@ -2,7 +2,7 @@
 
 This is an attempt at quickly creating a test suite for https://saucedemo.com/ (Sauce Labs test demo site).
 
-Updated with a basic Page Object Model.
+Updated with a basic Page Object Model (See [PR1](https://github.com/MarkJB/Playwright/pull/1)).
 
 It was not intended to provide 100% test coverage, but was an exercise in starting from scratch again, re-familiarizing myself with Playwright & Typescript (not that it needed much Typescript - seems to be inferred well enough).
 
