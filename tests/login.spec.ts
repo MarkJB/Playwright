@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { login, testLogin } from "../utils/utils";
+import { PageObjectModel } from "../utils/pageObjectModel";
 
 test.describe("Login", () => {
   test.beforeEach(async ({ page }) => {
@@ -12,68 +13,44 @@ test.describe("Login", () => {
   // a single test function. See example at the end of this file.
 
   test("Login with valid credentials", async ({ page }) => {
-    // Fill in the username and password fields
-
-    // Compare the Codegen suggested locator vs an accessible locator
-    // await page.fill("#user-name", "standard_user");
-    // await page.fill("#password", "secret_sauce");
-    await page.getByRole("textbox", { name: "Username" }).fill("standard_user");
-    await page.getByRole("textbox", { name: "Password" }).fill("secret_sauce");
-    // Click the login button
-    // await page.click("#login-button");
-    await page.getByRole("button", { name: "Login" }).click();
-    // Verify that the login was successful by checking for the presence of the inventory page
-    //   await expect(page.getByRole("heading", { name: "Products" })).toBeVisible();
-    await expect(page.locator("[data-test='title']")).toHaveText("Products");
+    const pom = new PageObjectModel(page);
+    await pom.login.usernameInput().fill("standard_user");
+    await pom.login.passwordInput().fill("secret_sauce");
+    await pom.login.loginButton().click();
+    await expect(pom.inventory.title()).toHaveText("Products");
   });
 
   test("Login with invalid username", async ({ page }) => {
-    // Fill in the username and password fields with invalid username
-    await page.getByRole("textbox", { name: "Username" }).fill("invalid_user");
-    await page.getByRole("textbox", { name: "Password" }).fill("secret_sauce");
-
-    // Click the login button
-    await page.getByRole("button", { name: "Login" }).click();
-
-    // Verify that the error message is displayed
+    const pom = new PageObjectModel(page);
+    await pom.login.usernameInput().fill("invalid_user");
+    await pom.login.passwordInput().fill("secret_sauce");
+    await pom.login.loginButton().click();
     await expect(
-      page.getByText(
+      pom.login.errorMessage(
         "Epic sadface: Username and password do not match any user in this service"
       )
     ).toBeVisible();
   });
 
   test("Login with invalid password", async ({ page }) => {
-    // Fill in the username and password fields with invalid password
-    await page.getByRole("textbox", { name: "Username" }).fill("standard_user");
-    await page
-      .getByRole("textbox", { name: "Password" })
-      .fill("invalid_password");
-
-    // Click the login button
-    await page.getByRole("button", { name: "Login" }).click();
-
-    // Verify that the error message is displayed
+    const pom = new PageObjectModel(page);
+    await pom.login.usernameInput().fill("standard_user");
+    await pom.login.passwordInput().fill("invalid_password");
+    await pom.login.loginButton().click();
     await expect(
-      page.getByText(
+      pom.login.errorMessage(
         "Epic sadface: Username and password do not match any user in this service"
       )
     ).toBeVisible();
   });
 
   test("Login with both invalid username and password", async ({ page }) => {
-    // Fill in the username and password fields with invalid credentials
-    await page.getByRole("textbox", { name: "Username" }).fill("invalid_user");
-    await page
-      .getByRole("textbox", { name: "Password" })
-      .fill("invalid_password");
-
-    // Click the login button
-    await page.getByRole("button", { name: "Login" }).click();
-
-    // Verify that the error message is displayed
+    const pom = new PageObjectModel(page);
+    await pom.login.usernameInput().fill("invalid_user");
+    await pom.login.passwordInput().fill("invalid_password");
+    await pom.login.loginButton().click();
     await expect(
-      page.getByText(
+      pom.login.errorMessage(
         "Epic sadface: Username and password do not match any user in this service"
       )
     ).toBeVisible();
@@ -124,15 +101,10 @@ test.describe("Parametrized Login Tests", () => {
     }) => {
       // We can replace all of this with the login utility function
       login(page, username, password);
-      //   // Fill in the username and password fields with locked out user credentials
-      //   await page.getByRole("textbox", { name: "Username" }).fill(username);
-      //   await page.getByRole("textbox", { name: "Password" }).fill(password);
-
-      //   // Click the login button
-      //   await page.getByRole("button", { name: "Login" }).click();
 
       // Verify that the expected message is displayed
-      await expect(page.getByText(expected)).toBeVisible();
+      const pom = new PageObjectModel(page);
+      await expect(pom.login.errorMessage(expected)).toBeVisible();
     });
   });
 });

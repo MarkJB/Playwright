@@ -36,10 +36,11 @@ This project is licensed under the MIT License — see the LICENSE file for deta
 
 What would I add next?
 
+Deduplicate and add structure to locators (page object model).
+
 The login page lists a number of different users that result in different UI behaviour such as a locked out user or glitch or other errors. We should try and test those. Some might be as simple as updating the test data for the existing login test, but others would require dedicated tests.
 
 Note: Added locked_out_user test in [e4d073896ba7d4a845a26fb0760bf56286ff9084](https://github.com/MarkJB/Playwright/commit/e4d073896ba7d4a845a26fb0760bf56286ff9084)
- 
 
 We could also do more extensive tests on the cart, adding multiple products, checking totals, removing products and checking totals and qtys update as expected.
 

@@ -1,8 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { login } from "../utils/utils";
 import { faker } from "@faker-js/faker";
+import { PageObjectModel } from "../utils/pageObjectModel";
 
 test("Login, add product to cart and checkout", async ({ page }) => {
+  const pom = new PageObjectModel(page);
   // Scenario: Can complete a product purchase.
   // Given I am logged in
   // When I add a product to the cart, and proceed to checkout
@@ -12,46 +14,44 @@ test("Login, add product to cart and checkout", async ({ page }) => {
   await login(page);
 
   // Verify that we are on the inventory page
-  await expect(page.locator('[data-test="title"]')).toHaveText("Products");
+  await expect(pom.inventory.title()).toHaveText("Products"); // TODO: Shared locator
 
-  // Add a product to the cart
-  await page.getByText("Sauce Labs Backpack").click();
-  await page.getByRole("button", { name: "Add to cart" }).click();
+  // Add a product to the cart (There are two options here, add directly from inventory or from the details page)
+  await pom.inventory.productByName("Sauce Labs Backpack").click();
+  await pom.inventoryItem.addToCartButton().click();
 
   // Go to the cart
-  await page.locator('[data-test="shopping-cart-link"]').click();
+  await pom.inventory.shoppingCartLink().click(); // TODO: Shared locator
   // note: if these elements were using the custom attribute data-testid,
   // we could use page.getByTestId("shopping-cart-link").click(); instead.
 
   // Proceed to checkout
-  await page.getByRole("button", { name: "Checkout" }).click();
+  await pom.cart.checkoutButton().click();
 
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
   const postalCode = faker.location.zipCode();
 
   // Fill in checkout form
-  await page.getByRole("textbox", { name: "First Name" }).fill(firstName);
-  await page.getByRole("textbox", { name: "Last Name" }).fill(lastName);
-  await page.getByRole("textbox", { name: "ZIP/Postal Code" }).fill(postalCode);
+  await pom.cart.firstNameInput().fill(firstName);
+  await pom.cart.lastNameInput().fill(lastName);
+  await pom.cart.postalCodeInput().fill(postalCode);
 
   // Submit information
-  await page.getByRole("button", { name: "Continue" }).click();
+  await pom.cart.continueButton().click();
 
   // Verify checkout overview (We might want to verify the product details here as well, depends on what is important)
-  await expect(page.locator('[data-test="title"]')).toHaveText(
-    "Checkout: Overview"
-  );
+  await expect(pom.inventory.title()).toHaveText("Checkout: Overview");
 
   // Complete purchase
-  await page.getByRole("button", { name: "Finish" }).click();
+  await pom.cart.finishButton().click();
 
   // Verify order confirmation
-  await expect(page.locator('[data-test="complete-header"]')).toHaveText(
+  await expect(pom.cart.completeHeader()).toHaveText(
     "Thank you for your order!"
   );
 
-  await expect(page.locator('[data-test="complete-text"]')).toHaveText(
+  await expect(pom.cart.completeText()).toHaveText(
     "Your order has been dispatched, and will arrive just as fast as the pony can get there!"
   );
 });
