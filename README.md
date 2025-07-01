@@ -2,6 +2,8 @@
 
 This is an attempt at quickly creating a test suite for https://saucedemo.com/ (Sauce Labs test demo site).
 
+Updated with a basic Page Object Model.
+
 It was not intended to provide 100% test coverage, but was an exercise in starting from scratch again, re-familiarizing myself with Playwright & Typescript (not that it needed much Typescript - seems to be inferred well enough).
 
 I hit a few Gotchas that I remember hitting in the past like using async inside `.forEach` tests\*, or `map()` with other logic (Note: both `map()` and `[]forEach()` work fine if you are calling `test()` within it in a synchronous way (i.e. not calling it with async - see note below)).
@@ -35,8 +37,6 @@ This project is licensed under the MIT License — see the LICENSE file for deta
 ## Next steps?
 
 What would I add next?
-
-Deduplicate and add structure to locators (page object model).
 
 The login page lists a number of different users that result in different UI behaviour such as a locked out user or glitch or other errors. We should try and test those. Some might be as simple as updating the test data for the existing login test, but others would require dedicated tests.
 
