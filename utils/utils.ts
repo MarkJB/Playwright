@@ -48,3 +48,11 @@ export const selectProduct = async (
   await page.getByText(product).click();
   await expect(pom.inventoryItem.name()).toHaveText("Sauce Labs Backpack");
 };
+
+// Make the Page Object Model available to all tests that use this fixture
+// (saves having to instantiate it in each test)
+export const test = base.extend<{ pom: PageObjectModel }>({
+  pom: async ({ page }, use) => {
+    await use(new PageObjectModel(page));
+  },
+});

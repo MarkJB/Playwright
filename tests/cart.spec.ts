@@ -1,10 +1,8 @@
-import { test, expect } from "@playwright/test";
-import { login, selectProduct } from "../utils/utils";
+import { expect } from "@playwright/test";
+import { login, selectProduct, test } from "../utils/utils";
 import { faker } from "@faker-js/faker";
-import { PageObjectModel } from "../utils/pageObjectModel";
 
-test.beforeEach(async ({ page }) => {
-  const pom = new PageObjectModel(page);
+test.beforeEach(async ({ page, pom }) => {
   // Navigate to the login page before each test
   await page.goto("https://www.saucedemo.com/");
   // Login with default credentials
@@ -59,8 +57,7 @@ const customerInfo = [
 ];
 
 customerInfo.forEach(({ title, firstName, lastName, postalCode, message }) => {
-  test(`Checkout with ${title}`, async ({ page }) => {
-    const pom = new PageObjectModel(page);
+  test(`Checkout with ${title}`, async ({ pom }) => {
     // Fill in the checkout form with the provided customer data
     if (firstName) {
       await pom.cart.firstNameInput().fill(firstName);

@@ -1,6 +1,5 @@
-import { test, expect } from "@playwright/test";
-import { login, selectProduct } from "../utils/utils";
-import { PageObjectModel } from "../utils/pageObjectModel";
+import { expect } from "@playwright/test";
+import { login, selectProduct, test } from "../utils/utils";
 
 test.beforeEach(async ({ page }) => {
   // Navigate to site and login before each test - should pull credentials from .env file
@@ -9,8 +8,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Products", () => {
-  test("Add Product to cart", async ({ page }) => {
-    const pom = new PageObjectModel(page);
+  test("Add Product to cart", async ({ pom }) => {
     // Scenario: Add a product to the cart and verify it appears in the cart icon
     // Given I am on the inventory (Products) page
     await expect(pom.inventory.title()).toBeVisible(); // Not a great locator as "Products" could appear anywhere in the test - maybe URL would be better.
@@ -31,8 +29,7 @@ test.describe("Products", () => {
     await expect(pom.inventory.shoppingCartIconButton()).toHaveText("1");
   });
 
-  test("Remove Product from cart", async ({ page }) => {
-    const pom = new PageObjectModel(page);
+  test("Remove Product from cart", async ({ pom }) => {
     // Scenario: Remove a product from the cart and verify it disappears from the cart icon
     // Given I am on the inventory page
     await expect(pom.inventory.title()).toHaveText("Products");
@@ -48,8 +45,7 @@ test.describe("Products", () => {
     await expect(pom.inventory.shoppingCartIconButton()).toBeEmpty();
   });
 
-  test("Check default product sort order", async ({ page }) => {
-    const pom = new PageObjectModel(page);
+  test("Check default product sort order", async ({ pom }) => {
     // Scenario: Verify the default product sort order is "Name (A to Z)"
     // Given I am on the inventory page
     await expect(pom.inventory.title()).toHaveText("Products");
@@ -71,8 +67,7 @@ test.describe("Products", () => {
     await expect(productNames).toEqual(sortedProductNames);
   });
 
-  test("Sort products alphanumerically reverse (z-a)", async ({ page }) => {
-    const pom = new PageObjectModel(page);
+  test("Sort products alphanumerically reverse (z-a)", async ({ pom }) => {
     // Scenario: Sort products alphabetically in reverse order (Z to A)"
     // Given I am on the inventory page
     await expect(pom.inventory.title()).toHaveText("Products");
@@ -94,8 +89,7 @@ test.describe("Products", () => {
     ).toEqual(sortedProductNames);
   });
 
-  test("Sort Products by price low to high", async ({ page }) => {
-    const pom = new PageObjectModel(page);
+  test("Sort Products by price low to high", async ({ page, pom }) => {
     // Scenario: Sort products by price from low to high
     // Given I am on the inventory page
     await expect(pom.inventory.title()).toHaveText("Products");
@@ -121,8 +115,7 @@ test.describe("Products", () => {
     }
   });
 
-  test("Sort Products by price high to low", async ({ page }) => {
-    const pom = new PageObjectModel(page);
+  test("Sort Products by price high to low", async ({ pom }) => {
     // Scenario: Sort products by price from high to low
     // Given I am on the inventory page
     await expect(pom.inventory.title()).toHaveText("Products");
@@ -148,8 +141,7 @@ test.describe("Products", () => {
 });
 
 test.describe("Product Details", () => {
-  test("Verify product details", async ({ page }) => {
-    const pom = new PageObjectModel(page);
+  test("Verify product details", async ({ pom }) => {
     // Scenario: Verify product details when clicking on a product
     // Given I am on the inventory page
     await expect(pom.inventory.title()).toHaveText("Products");
@@ -165,8 +157,8 @@ test.describe("Product Details", () => {
 
   test("Check we can get back to the inventory page from a product", async ({
     page,
+    pom,
   }) => {
-    const pom = new PageObjectModel(page);
     // Scenario: Verify we can navigate back to the inventory page from a product
     // Given I am on a product details page
     await selectProduct(page);
@@ -178,8 +170,10 @@ test.describe("Product Details", () => {
     await expect(pom.inventory.title()).toHaveText("Products");
   });
 
-  test("Add product to cart from product details page", async ({ page }) => {
-    const pom = new PageObjectModel(page);
+  test("Add product to cart from product details page", async ({
+    page,
+    pom,
+  }) => {
     // Scenario: Add a product to the cart from the product details page
     // Given I am on a product details page
     await selectProduct(page);
@@ -194,8 +188,8 @@ test.describe("Product Details", () => {
 
   test("Remove product from cart from product details page", async ({
     page,
+    pom,
   }) => {
-    const pom = new PageObjectModel(page);
     // Scenario: Remove a product from the cart from the product details page
     // Given I am on a product details page
     await selectProduct(page);

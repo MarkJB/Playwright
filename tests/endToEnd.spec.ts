@@ -1,10 +1,8 @@
-import { test, expect } from "@playwright/test";
-import { login } from "../utils/utils";
+import { expect } from "@playwright/test";
+import { login, test } from "../utils/utils";
 import { faker } from "@faker-js/faker";
-import { PageObjectModel } from "../utils/pageObjectModel";
 
-test("Login, add product to cart and checkout", async ({ page }) => {
-  const pom = new PageObjectModel(page);
+test("Login, add product to cart and checkout", async ({ page, pom }) => {
   // Scenario: Can complete a product purchase.
   // Given I am logged in
   // When I add a product to the cart, and proceed to checkout
