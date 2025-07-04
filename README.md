@@ -4,7 +4,7 @@ This is an attempt at quickly creating a test suite for https://saucedemo.com/ (
 
 Updated with a basic Page Object Model (See [PR1](https://github.com/MarkJB/Playwright/pull/1)).
 
-It was not intended to provide 100% test coverage, but was an exercise in starting from scratch again, re-familiarizing myself with Playwright & Typescript (not that it needed much Typescript - seems to be inferred well enough).
+It was not intended to provide 100% test coverage, but was an exercise in starting from scratch again, after a few months away from Playwright, re-familiarizing myself with Playwright & Typescript (not that it needed much Typescript - seems to be inferred well enough).
 
 I hit a few Gotchas that I remember hitting in the past like using async inside `.forEach` tests\*, or `map()` with other logic (Note: both `map()` and `[]forEach()` work fine if you are calling `test()` within it in a synchronous way (i.e. not calling it with async - see note below)).
 
