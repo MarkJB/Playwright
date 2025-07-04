@@ -16,7 +16,7 @@ I looked into fixtures which I've not really done before - they are not like Pyt
 
 ## Setup
 
-Should just be able to run `npm ci` to install everything.
+Should just be able to run `npm ci` to install everything. (You'll need node installed to do that though).
 
 ## Running tests
 
